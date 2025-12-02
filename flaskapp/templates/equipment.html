@@ -1,0 +1,55 @@
+
+ 
+
+{% extends "base.html" %}
+
+{% block title %}Equipment{% endblock %}
+
+{% block content %}
+
+<h1>Equipment</h1>
+
+<hr class="border-3">
+
+<a href="{{ url_for('render_add_equipment') }}" class="btn btn-primary mb-3">Add an item</a>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for item in equipment %}
+    <div class="col">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename=item['image_path']) }}" class="card-img-top" alt="{{ item['summary'] }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ item['name'] }}</h5>
+                <p class="card-text">{{ item['summary'][:30] }} ...</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('render_one_item', item_id=item['id']) }}" class="btn btn-primary">Details</a>
+                {{item_id}}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!--
+<h1 class="display-4">Equipment</h1>
+<a href="{{url_for('render_add_equipment')}}">
+    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Add Item</button>
+</a>
+<div class="row">
+    {% for i in item %}
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+        <div class="card mb-3" style="width: 18rem;">
+            <img class="card-img-top my-3" src="{{ url_for('static', filename=i['image_path'])}}" alt="{{i}}">
+            <h5> {{ i['name'] }}</h5>
+            <p> {{ i['summary'] }}</p>
+            <a href="{{url_for('render_item', item_id=i['name'])}}">
+                <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Details</button>
+            </a>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+-->

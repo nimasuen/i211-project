@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}{{ item['name'] }}{% endblock %}
+
+{% block content %}
+
+
+<h1>{{ item['name'] }}</h1>
+
+<hr class="border-3">
+
+<a href="{{ url_for('render_edit_equipment', item_id=item_id) }}" class="btn btn-primary mb-3">Edit details</a>
+
+<h2 class="my-3">Overview</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="table-responsive">
+
+<!--Styling from Bootstrap-->
+<!--<a href="{{url_for('render_one_item', item_id=item_id)}}">
+    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Edit Item</button>
+</a>-->
+
+
+            <table class="table table-striped-columns">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>{{ item['name'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Short Summary</th>
+                        <td>{{ item['summary'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ item['description'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Daily Rental Price</th>
+                        <td>${{ item['daily_rental_price'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Condition</th>
+                        <td>{{ item['item_condition'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Weight</th>
+                        <td>{{ item['weight'] }} lbs</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Purchase Date</th>
+                        <td>{{ item['purchase_date'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Notes</th>
+                        <td>{{ item['notes'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Availability</th>
+                        <td>{%if item.rented_by %}
+                                Rented by {{item.rented_by}} until {{item.due_date}}
+                            {%else%}
+                                Available
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {% if rental_status == "available" %}
+                            <!-- Display the form for renting -->
+                            <tr>
+                                <th scope="row">Availability</th>
+                                <td>
+                                    <form method="post" action="{{ url_for('rent_equipment', item_id=item_id) }}">
+                                        <select name="member_id">
+                                            {% for member in members %}
+                                                <option value="{{ member.id }}">{{ member.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit">Rent</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <!-- Display information for unavailable item -->
+                            <tr>
+                                <th scope="row">Rented by</th>
+                                <td>{{ renter_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Checkout Date</th>
+                                <td>{{ checkout_date }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Due Date</th>
+                                <td>{{ due_date }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Availability</th>
+                                <td>Not available</td>
+                            </tr>
+                        {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <img class="img-fluid mx-auto d-block rounded" src="{{ url_for('static', filename=item['image_path']) }}"
+            alt="{{ item['description'] }}">
+    </div>
+</div>
+{% endblock %}
